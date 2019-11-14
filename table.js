@@ -3,7 +3,7 @@ import pg from 'pg';
 const con = new pg.Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'TeamWorkUsers',
+  database: 'TeamUsers',
   password: 'woody4real',
   port: 5432,
 });
