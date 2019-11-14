@@ -25,6 +25,7 @@ describe('POST /api/v1/auth/create-user', () => { /* eslint no-undef: off */
         expect(err).to.be.null; /* eslint no-unused-expressions: off */
         expect(res).to.be.json;
         expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('status');
         expect(res.body.data).to.have.property('userId');
         expect(res.body.data).to.have.property('message');
         expect(res.body.data).to.have.property('token');
