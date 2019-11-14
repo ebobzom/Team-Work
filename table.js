@@ -7,6 +7,7 @@ const con = new pg.Client({
   password: 'woody4real',
   port: 5432,
 });
+con.connect();
 con.query('DROP table if exists Users');
 con.query(`CREATE TABLE Users(
 user_id serial primary key not null,

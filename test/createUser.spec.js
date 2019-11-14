@@ -21,7 +21,10 @@ describe('POST /api/v1/auth/create-user', () => { /* eslint no-undef: off */
         address: 'No. 12 test road, Nigeria',
       })
       .end((err, res) => {
-        if (err) done();
+        if (err) {
+          console.log(err); /* eslint no-console: off */
+          done();
+        }
         expect(err).to.be.null; /* eslint no-unused-expressions: off */
         expect(res).to.be.json;
         expect(res.body).to.have.property('status');
