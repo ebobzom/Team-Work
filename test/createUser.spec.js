@@ -61,7 +61,7 @@ describe('POST /api/v1/auth/create-user', () => { /* eslint no-undef: off */
         expect(res).to.be.json;
         expect(res.body).to.have.property('status');
         expect(res.body).to.have.property('error');
-        expect(res).to.have.status(422);
+        expect(res).to.have.status(401);
         done();
       });
   });
