@@ -54,7 +54,7 @@ const adminUserSignin = (req, res) => {
         if (result) {
           jwt.sign({
             createdAt, email, department, jobRole,
-          }, process.env.PASSWORD, { expiresIn: '10h' }, (errorObj, token) => {
+          }, process.env.PASSWORD, { expiresIn: '1d' }, (errorObj, token) => {
             if (errorObj) {
               return res.status(401).json({ status: 'error', error: 'token error' });
             }
