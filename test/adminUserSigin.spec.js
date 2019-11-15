@@ -37,10 +37,7 @@ describe('POST /api/v1/auth/signin', () => {
         password: 'test1234.',
       })
       .end((err, res) => {
-        console.log('The error starts here',err);
-        console.log('The body starts here', res.body);
         if (err) {
-          console.log(err); /* eslint no-console: off */
           done();
         }
         expect(err).to.be.null; /* eslint no-unused-expressions: off */
