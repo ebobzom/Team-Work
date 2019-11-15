@@ -1,3 +1,4 @@
+/* eslint linebreak-style: off */
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
