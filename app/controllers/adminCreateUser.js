@@ -1,3 +1,4 @@
+/* eslint linebreak-style: off */
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';

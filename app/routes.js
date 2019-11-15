@@ -1,7 +1,9 @@
+/* eslint linebreak-style: off */
 import express from 'express';
 import { check } from 'express-validator';
 
 import adminCreateUser from './controllers/adminCreateUser';
+import adminUserSignin from './controllers/adminUserSignin';
 
 
 const router = express.Router();
@@ -25,5 +27,10 @@ router.post('/api/v1/auth/create-user', [
   check('address').isLength({ max: 30 }).withMessage('address must not exceed 30 characters'),
   check('isAdmin').isBoolean().withMessage('a bolean is required'),
 ], adminCreateUser);
+
+router.post('/api/v1/auth/signin', [
+  check('email').exists().isString().withMessage('email is required'),
+  check('password').exists().matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$.!%*#?&])[A-Za-z\d@$.!%*#?&]{6,}$/).withMessage('password must not be less than 6 characters or more than 12 and should contain at least on special charater'),
+], adminUserSignin);
 
 export default router;
