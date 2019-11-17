@@ -5,6 +5,7 @@ import { check } from 'express-validator';
 import adminCreateUser from './controllers/adminCreateUser';
 import adminUserSignin from './controllers/adminUserSignin';
 import articles from './controllers/articles';
+import editArticles from './controllers/editArticle';
 
 
 const router = express.Router();
@@ -39,4 +40,10 @@ router.post('/api/v1/auth/articles', [
   check('title').exists().isLength({ max: 25 }).withMessage('title shpuld not be more than 25 characters'),
   check('article').exists().isString().withMessage('articles should be a string'),
 ], articles);
+
+router.patch('/api/v1/auth/articles/:articleNum', [
+  check('title').exists().isString().withMessage('title is required and must be string'),
+  check('title').exists().isLength({ max: 25 }).withMessage('title shpuld not be more than 25 characters'),
+  check('article').exists().isString().withMessage('articles should be a string'),
+], editArticles);
 export default router;

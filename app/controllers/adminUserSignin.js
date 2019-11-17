@@ -58,6 +58,7 @@ const adminUserSignin = (req, res) => {
             if (errorObj) {
               return res.status(401).json({ status: 'error', error: 'token error' });
             }
+            res.cookie('token', token);
             return res.status(200).json({
               status: 'success',
               data: {
