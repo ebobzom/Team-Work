@@ -1,3 +1,4 @@
+/* eslint linebreak-style: off */
 import chaiHttp from 'chai-http';
 import chai, { expect } from 'chai';
 
@@ -23,6 +24,7 @@ describe('POST /api/v1/auth/articles', () => {
       })
       .end((err, res) => {
         if (err) {
+          // console.log(err);
           done();
         }
         chai.request(app)
@@ -35,9 +37,11 @@ describe('POST /api/v1/auth/articles', () => {
           })
           .end((error, result) => {
             if (error) {
+              // console.log(error);
               done();
             }
             /* eslint no-unused-expressions: off */
+            // console.log('articles ', result.body);
 
             const ans = result.body;
             expect(error).to.be.null;

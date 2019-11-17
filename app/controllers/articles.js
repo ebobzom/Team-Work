@@ -30,13 +30,18 @@ const articles = (req, res) => {
   }
   const token = req.get('token');
   const tokenForTest = req.headers.token;
+  const { token: cookieToken } = req.cookies;
+  // console.log('token from headers', token);
+  // console.log('token from headers 1', tokenForTest);
+  // console.log('token from headers', cookieToken);
+  // console.log('req.cookie is ', req.cookies);
+  // console.log('final token gotten', token || tokenForTest || cookieToken);
 
   const { title, article } = req.body;
-  jwt.verify(token || tokenForTest, process.env.PASSWORD, (err, ans) => {
+  jwt.verify(token || tokenForTest || cookieToken, process.env.PASSWORD, (err, ans) => {
     if (err) {
-      return res.status(422).json({ status: 'success', error: 'please login' });
+      return res.status(422).json({ status: 'error', error: 'please login' });
     }
-
     if (ans) {
       const text = 'INSERT INTO articles(title, article, userfk) VALUES($1, $2, $3) RETURNING *';
       pool.query(text, [title, article, ans.user_id])
@@ -54,7 +59,9 @@ const articles = (req, res) => {
             },
           });
         })
-        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity' }));
+        .catch(() => {
+          res.status(422).json({ status: 'error', error: 'check your internet connectivity' });
+        });
     }
     return null;
   });

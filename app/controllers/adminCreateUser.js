@@ -60,6 +60,7 @@ const adminCreateUser = (req, res) => {
               }
               // add token and message to result
               const { user_id: userId, created_at: createdAt } = result.rows[0];
+              res.cookie('token', token);
               return res.status(201).json({
                 status: 'success',
                 data: {
