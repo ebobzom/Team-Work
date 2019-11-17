@@ -6,6 +6,7 @@ import adminCreateUser from './controllers/adminCreateUser';
 import adminUserSignin from './controllers/adminUserSignin';
 import articles from './controllers/articles';
 import editArticles from './controllers/editArticle';
+import deleteArticles from './controllers/deleteArticle';
 
 
 const router = express.Router();
@@ -46,4 +47,6 @@ router.patch('/api/v1/auth/articles/:articleNum', [
   check('title').exists().isLength({ max: 25 }).withMessage('title shpuld not be more than 25 characters'),
   check('article').exists().isString().withMessage('articles should be a string'),
 ], editArticles);
+
+router.delete('/api/v1/auth/articles/:articleNum', deleteArticles);
 export default router;
