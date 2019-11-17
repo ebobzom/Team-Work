@@ -42,9 +42,6 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
               done();
             }
             /* eslint no-unused-expressions: off */
-            // console.log('second result passed to last', result.body);
-            // console.log('token and articleid', res.body.data.token, result.body.data.articleId)
-            // console.log(res.body.data.token);
 
             chai.request(app)
               .patch(`/api/v1/auth/articles/${result.body.data.articleId}`)

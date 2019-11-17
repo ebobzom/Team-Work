@@ -39,7 +39,7 @@ const editArticles = (req, res) => {
     }
 
     if (ans) {
-      const text = `UPDATE articles SET title='${title}' WHERE articleid='${articleNum}' RETURNING *`;
+      const text = `UPDATE articles SET title='${title}', article = '${article}' WHERE articleid='${articleNum}' RETURNING *`;
       pool.query(text)
         .then((result) => {
           const { createdon: createdOn, articleid: articleId, userfk: userId } = result.rows[0];
