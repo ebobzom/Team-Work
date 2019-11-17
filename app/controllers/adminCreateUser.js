@@ -24,7 +24,7 @@ if (process.env.HEROKU_URL) {
 const pool = new Pool(pgSetUp);
 
 
-const adminCreateUser = async (req, res) => {
+const adminCreateUser = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ status: 'error', error: errors.array().map((val) => ({ msg: val.msg })) });
@@ -54,12 +54,13 @@ const adminCreateUser = async (req, res) => {
         ])
           .then((result) => {
           // generate token
-            jwt.sign({ user_id: result.rows[0].user_id }, process.env.PASSWORD, { expiresIn: '10h' }, (errorObj, token) => {
+            jwt.sign({ user_id: result.rows[0].user_id }, process.env.PASSWORD, { expiresIn: '1d' }, (errorObj, token) => {
               if (errorObj) {
                 return res.status(401).json({ status: 'error', error: 'token error' });
               }
               // add token and message to result
               const { user_id: userId, created_at: createdAt } = result.rows[0];
+              res.cookie('token', token);
               return res.status(201).json({
                 status: 'success',
                 data: {

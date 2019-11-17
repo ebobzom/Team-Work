@@ -1,3 +1,4 @@
+/* eslint linebreak-style: off */
 import chaiHttp from 'chai-http';
 import chai, { expect } from 'chai';
 
@@ -5,7 +6,8 @@ import app from '../server';
 
 chai.use(chaiHttp);
 
-describe('POST /api/v1/auth/create-user', () => { /* eslint no-undef: off */
+describe('POST /api/v1/auth/create-user', () => {
+  /* eslint no-undef: off */
   it('should return all required fields with a token included', (done) => {
     chai.request(app)
       .post('/api/v1/auth/create-user')
