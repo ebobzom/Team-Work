@@ -31,9 +31,10 @@ const editArticles = (req, res) => {
   const token = req.get('token');
   const tokenForTest = req.headers.token;
   const { articleNum } = req.params;
+  const tokenFromCookie = req.cookies.token;
 
   const { title, article } = req.body;
-  jwt.verify(token || tokenForTest, process.env.PASSWORD, (err, ans) => {
+  jwt.verify(token || tokenForTest || tokenFromCookie, process.env.PASSWORD, (err, ans) => {
     if (err) {
       return res.status(422).json({ status: 'error', error: 'please login' });
     }
