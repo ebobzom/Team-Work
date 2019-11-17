@@ -6,7 +6,7 @@ import app from '../server';
 
 chai.use(chaiHttp);
 
-describe('POST /api/v1/auth/articles/:<articleId>', () => {
+describe('DELETE /api/v1/auth/articles/:<articleId>', () => {
   /* eslint no-undef: off */
   it('should return all required fields', (done) => {
     chai.request(app)
