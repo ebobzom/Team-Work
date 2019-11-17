@@ -6,7 +6,7 @@ import app from '../server';
 
 chai.use(chaiHttp);
 
-describe('POST /api/v1/auth/articles/:<articleId>', () => {
+describe('DELETE /api/v1/auth/articles/:<articleId>', () => {
   /* eslint no-undef: off */
   it('should return all required fields', (done) => {
     chai.request(app)
@@ -14,7 +14,7 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
       .send({
         firstName: 'articles',
         lastName: 'articles',
-        email: 'articles@gmail123.com',
+        email: 'articles@gmail1234567.com',
         gender: 'male',
         password: 'article123.',
         jobRole: 'developer',
@@ -24,33 +24,24 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
       })
       .end((err, res) => {
         if (err) {
-          // console.log('first request error', err);
           done();
         }
-        // console.log('second article response', res.body);
         chai.request(app)
           .post('/api/v1/auth/articles')
           .set('token', res.body.data.token)
           .set('Content-Type', 'application/json')
           .send({
-            title: 'edit article test',
-            article: 'edit article test',
+            title: 'delete article test',
+            article: 'edit delete route article test',
           })
           .end((error, result) => {
             if (error) {
-              // console.log('error in edit test here', error);
               done();
             }
             /* eslint no-unused-expressions: off */
-
             chai.request(app)
-              .patch(`/api/v1/auth/articles/${result.body.data.articleId}`)
+              .delete(`/api/v1/auth/articles/${result.body.data.articleId}`)
               .set('token', res.body.data.token)
-              .set('Content-Type', 'application/json')
-              .send({
-                title: 'edited newly article',
-                article: 'edited newly article',
-              })
               .end((error2, answer) => {
                 if (error2) {
                   done();
@@ -61,10 +52,6 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
                 expect(ans).to.have.property('status');
                 expect(ans).to.have.property('data');
                 expect(ans.data).to.have.property('message');
-                expect(ans.data).to.have.property('articleId');
-                expect(ans.data).to.have.property('title');
-                expect(ans.data).to.have.property('article');
-                expect(ans.data).to.have.property('createdOn');
                 expect(answer).to.have.status(200);
                 done();
               });

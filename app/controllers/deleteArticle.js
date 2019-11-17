@@ -1,7 +1,6 @@
 /* eslint linebreak-style: off */
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
-import { validationResult } from 'express-validator';
 import { Pool } from 'pg';
 
 // setup enviroment variable
@@ -23,38 +22,25 @@ if (process.env.HEROKU_URL) {
 const pool = new Pool(pgSetUp);
 
 
-const editArticles = (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ status: 'error', error: errors.array().map((val) => ({ msg: val.msg })).filter((val) => val.msg !== 'Invalid value') });
-  }
+const deleteArticles = (req, res) => {
   const token = req.get('token');
   const tokenForTest = req.headers.token;
   const { articleNum } = req.params;
 
-  const { title, article } = req.body;
   jwt.verify(token || tokenForTest, process.env.PASSWORD, (err, ans) => {
     if (err) {
       return res.status(422).json({ status: 'error', error: 'please login' });
     }
 
     if (ans) {
-      const text = `UPDATE articles SET title='${title}', article = '${article}' WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}' RETURNING *`;
+      const text = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}' `;
       pool.query(text)
-        .then((result) => {
-          const { createdon: createdOn, articleid: articleId, userfk: userId } = result.rows[0];
-          return res.status(200).json({
-            status: 'success',
-            data: {
-              message: 'Article successfully updated',
-              articleId,
-              userId,
-              createdOn,
-              article,
-              title,
-            },
-          });
-        })
+        .then(() => res.status(200).json({
+          status: 'success',
+          data: {
+            message: 'Article successfully deleted',
+          },
+        }))
         .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity or you are not the article owner' }));
     }
     return null;
@@ -62,4 +48,4 @@ const editArticles = (req, res) => {
   return null;
 };
 
-export default editArticles;
+export default deleteArticles;
