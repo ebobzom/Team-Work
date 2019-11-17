@@ -39,7 +39,7 @@ const editArticles = (req, res) => {
     }
 
     if (ans) {
-      const text = `UPDATE articles SET title='${title}', article = '${article}' WHERE articleid='${articleNum}' RETURNING *`;
+      const text = `UPDATE articles SET title='${title}', article = '${article}' WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}' RETURNING *`;
       pool.query(text)
         .then((result) => {
           const { createdon: createdOn, articleid: articleId, userfk: userId } = result.rows[0];
@@ -55,7 +55,7 @@ const editArticles = (req, res) => {
             },
           });
         })
-        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity' }));
+        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity or you are not the article owner' }));
     }
     return null;
   });

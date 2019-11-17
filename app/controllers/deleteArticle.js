@@ -33,7 +33,7 @@ const deleteArticles = (req, res) => {
     }
 
     if (ans) {
-      const text = `DELETE FROM articles WHERE articleid='${articleNum}' `;
+      const text = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}' `;
       pool.query(text)
         .then(() => res.status(200).json({
           status: 'success',
@@ -41,7 +41,7 @@ const deleteArticles = (req, res) => {
             message: 'Article successfully deleted',
           },
         }))
-        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity' }));
+        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity or you are not the article owner' }));
     }
     return null;
   });
