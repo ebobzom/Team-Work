@@ -31,11 +31,6 @@ const articles = (req, res) => {
   const token = req.get('token');
   const tokenForTest = req.headers.token;
   const { token: cookieToken } = req.cookies;
-  // console.log('token from headers', token);
-  // console.log('token from headers 1', tokenForTest);
-  // console.log('token from headers', cookieToken);
-  // console.log('req.cookie is ', req.cookies);
-  // console.log('final token gotten', token || tokenForTest || cookieToken);
 
   const { title, article } = req.body;
   jwt.verify(token || tokenForTest || cookieToken, process.env.PASSWORD, (err, ans) => {

@@ -26,15 +26,18 @@ const deleteArticles = (req, res) => {
   const token = req.get('token');
   const tokenForTest = req.headers.token;
   const { articleNum } = req.params;
+  const tokenFromCookie = req.cookies.token;
 
-  jwt.verify(token || tokenForTest, process.env.PASSWORD, (err, ans) => {
+  jwt.verify(token || tokenForTest || tokenFromCookie, process.env.PASSWORD, (err, ans) => {
     if (err) {
       return res.status(422).json({ status: 'error', error: 'please login' });
     }
 
     if (ans) {
-      const text = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}' `;
-      pool.query(text)
+      const text1 = `BEGIN TRANSACTION; DELETE from article_comments where articlefk = '${articleNum}';`;
+      const text2 = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}'; COMMIT TRANSACTION;`;
+      // const text=`DELETE FROMarticlesWHEREarticleid='${articleNum}'ANDuserfk='${ans.user_id||1}'`
+      pool.query(text1 + text2)
         .then(() => res.status(200).json({
           status: 'success',
           data: {

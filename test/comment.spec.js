@@ -6,7 +6,7 @@ import app from '../server';
 
 chai.use(chaiHttp);
 
-describe('POST /api/v1/auth/articles/:<articleId>', () => {
+describe('POST /api/v1/auth/articles/:<articleId>/comment', () => {
   /* eslint no-undef: off */
   it('should return all required fields', (done) => {
     chai.request(app)
@@ -14,9 +14,9 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
       .send({
         firstName: 'articles',
         lastName: 'articles',
-        email: 'articles@gmail123.com',
+        email: 'comment@gmail123.com',
         gender: 'male',
-        password: 'article123.',
+        password: 'comments123.',
         jobRole: 'developer',
         department: 'education',
         isAdmin: false,
@@ -31,8 +31,8 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
           .set('token', res.body.data.token)
           .set('Content-Type', 'application/json')
           .send({
-            title: 'edit article test',
-            article: 'edit article test',
+            title: 'comments',
+            article: 'comment body',
           })
           .end((error, result) => {
             if (error) {
@@ -41,12 +41,11 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
             /* eslint no-unused-expressions: off */
 
             chai.request(app)
-              .patch(`/api/v1/auth/articles/${result.body.data.articleId}`)
+              .post(`/api/v1/auth/articles/${result.body.data.articleId}/comment`)
               .set('token', res.body.data.token)
               .set('Content-Type', 'application/json')
               .send({
-                title: 'edited newly article',
-                article: 'edited newly article',
+                comment: 'comment for the test',
               })
               .end((error2, answer) => {
                 if (error2) {
@@ -58,10 +57,12 @@ describe('POST /api/v1/auth/articles/:<articleId>', () => {
                 expect(ans).to.have.property('status');
                 expect(ans).to.have.property('data');
                 expect(ans.data).to.have.property('message');
-                expect(ans.data).to.have.property('articleId');
-                expect(ans.data).to.have.property('title');
+                expect(ans.data).to.have.property('comment');
+                expect(ans.data).to.have.property('articleTitle');
                 expect(ans.data).to.have.property('article');
                 expect(ans.data).to.have.property('createdOn');
+                expect(ans.data).to.have.property('commentDate');
+                expect(ans.data).to.have.property('articleId');
                 expect(answer).to.have.status(200);
                 done();
               });
