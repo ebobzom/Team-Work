@@ -23,7 +23,7 @@ if (process.env.HEROKU_URL) {
 const pool = new Pool(pgSetUp);
 
 
-const editArticles = (req, res) => {
+const commentOnArticle = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ status: 'error', error: errors.array().map((val) => ({ msg: val.msg })).filter((val) => val.msg !== 'Invalid value') });
@@ -56,11 +56,11 @@ const editArticles = (req, res) => {
             },
           });
         })
-        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity or you are not the article owner' }));
+        .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity' }));
     }
     return null;
   });
   return null;
 };
 
-export default editArticles;
+export default commentOnArticle;

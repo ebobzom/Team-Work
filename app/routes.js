@@ -7,6 +7,7 @@ import adminUserSignin from './controllers/adminUserSignin';
 import articles from './controllers/articles';
 import editArticles from './controllers/editArticle';
 import deleteArticles from './controllers/deleteArticle';
+import articlesComment from './controllers/articleComment';
 
 
 const router = express.Router();
@@ -49,4 +50,5 @@ router.patch('/api/v1/auth/articles/:articleNum', [
 ], editArticles);
 
 router.delete('/api/v1/auth/articles/:articleNum', deleteArticles);
+router.post('/api/v1/auth/articles/:articleNum/comment', articlesComment);
 export default router;

@@ -34,8 +34,10 @@ const deleteArticles = (req, res) => {
     }
 
     if (ans) {
-      const text = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}' `;
-      pool.query(text)
+      const text1 = `BEGIN TRANSACTION; DELETE from article_comments where articlefk = '${articleNum}';`;
+      const text2 = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}'; COMMIT TRANSACTION;`;
+      // const text=`DELETE FROMarticlesWHEREarticleid='${articleNum}'ANDuserfk='${ans.user_id||1}'`
+      pool.query(text1 + text2)
         .then(() => res.status(200).json({
           status: 'success',
           data: {
