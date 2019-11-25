@@ -8,6 +8,7 @@ import articles from './controllers/articles';
 import editArticles from './controllers/editArticle';
 import deleteArticles from './controllers/deleteArticle';
 import articlesComment from './controllers/articleComment';
+import postGifs from './controllers/postGifs';
 
 
 const router = express.Router();
@@ -45,10 +46,13 @@ router.post('/api/v1/auth/articles', [
 
 router.patch('/api/v1/auth/articles/:articleNum', [
   check('title').exists().isString().withMessage('title is required and must be string'),
-  check('title').exists().isLength({ max: 25 }).withMessage('title shpuld not be more than 25 characters'),
+  check('title').exists().isLength({ max: 25 }).withMessage('title should not be more than 25 characters'),
   check('article').exists().isString().withMessage('articles should be a string'),
 ], editArticles);
 
 router.delete('/api/v1/auth/articles/:articleNum', deleteArticles);
 router.post('/api/v1/auth/articles/:articleNum/comment', articlesComment);
+router.post('/api/v1/auth/gifs', [
+  check('title').exists().isLength({ max: 25 }).withMessage('title should not be more than 25 characters'),
+], postGifs);
 export default router;
