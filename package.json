@@ -21,11 +21,13 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
     "express-rate-limit": "^5.0.0",
     "express-validator": "^6.2.0",
     "helmet": "^3.21.2",
     "hpp": "^0.2.2",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
     "pg": "^7.12.1",
     "xss-clean": "^0.1.1"
   },
