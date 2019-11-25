@@ -9,6 +9,7 @@ import editArticles from './controllers/editArticle';
 import deleteArticles from './controllers/deleteArticle';
 import articlesComment from './controllers/articleComment';
 import postGifs from './controllers/postGifs';
+import deleteGifs from './controllers/deleteGifs';
 
 
 const router = express.Router();
@@ -55,4 +56,5 @@ router.post('/api/v1/auth/articles/:articleNum/comment', articlesComment);
 router.post('/api/v1/auth/gifs', [
   check('title').exists().isLength({ max: 25 }).withMessage('title should not be more than 25 characters'),
 ], postGifs);
+router.delete('/api/v1/auth/gifs/:gifId', deleteGifs);
 export default router;

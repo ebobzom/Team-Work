@@ -22,10 +22,10 @@ if (process.env.HEROKU_URL) {
 const pool = new Pool(pgSetUp);
 
 
-const deleteArticles = (req, res) => {
+const deleteGifs = (req, res) => {
   const token = req.get('token');
   const tokenForTest = req.headers.token;
-  const { articleNum } = req.params;
+  const { gifId } = req.params;
   const tokenFromCookie = req.cookies.token;
 
   jwt.verify(token || tokenForTest || tokenFromCookie, process.env.PASSWORD, (err, ans) => {
@@ -34,14 +34,14 @@ const deleteArticles = (req, res) => {
     }
 
     if (ans) {
-      const text1 = `BEGIN TRANSACTION; DELETE from article_comments where articlefk = '${articleNum}';`;
-      const text2 = `DELETE FROM articles WHERE articleid='${articleNum}' AND userfk='${ans.user_id || 1}'; COMMIT TRANSACTION;`;
+      const text1 = `BEGIN TRANSACTION; DELETE from gif_comments where giffk = '${gifId}';`;
+      const text2 = `DELETE FROM gifs WHERE gifid='${gifId}' AND usersfk='${ans.user_id || ans.user_id === 1}'; COMMIT TRANSACTION;`;
 
       pool.query(text1 + text2)
         .then(() => res.status(200).json({
           status: 'success',
           data: {
-            message: 'Article successfully deleted',
+            message: 'gif post successfully deleted',
           },
         }))
         .catch(() => res.status(422).json({ status: 'error', error: 'check your internet connectivity or you are not the article owner' }));
@@ -51,4 +51,4 @@ const deleteArticles = (req, res) => {
   return null;
 };
 
-export default deleteArticles;
+export default deleteGifs;

@@ -56,8 +56,8 @@ const postGifs = (req, res) => {
             error: 'Please check your internet connection',
           });
         }
-        const text = 'INSERT INTO gifs(title, imageUrl) VALUES($1, $2) RETURNING *';
-        pool.query(text, [finalTitle, answer.url])
+        const text = 'INSERT INTO gifs(title, imageUrl, usersfk) VALUES($1, $2, $3) RETURNING *';
+        pool.query(text, [finalTitle, answer.url, ans.user_id])
           .then((result) => {
             const {
               createdon: createdOn, imageurl: imageUrl, gifid: gifId, title,
